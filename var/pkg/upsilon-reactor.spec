@@ -1,4 +1,4 @@
-%include ../.buildid.rpmmacro
+%include SPECS/.buildid.rpmmacro
 
 Name:		upsilon-reactor
 Version:	%{version_formatted_short}
