@@ -2,7 +2,7 @@
 
 Name:		upsilon-reactor
 Version:	%{version_formatted_short}
-Release:	%{tag}.1%{?dist}
+Release:	%{version_formatted_short_}.%{timestamp}.%{?dist}
 Summary:	Upsilon Reactor.
 
 Group:		Applications/System
