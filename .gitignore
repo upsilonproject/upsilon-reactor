@@ -6,4 +6,4 @@ pkg
 buildid*
 .buildid
 build
-buildid.rpmmacro
+.buildid.rpmmacro

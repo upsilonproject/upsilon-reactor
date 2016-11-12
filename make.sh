@@ -11,6 +11,9 @@ mkdir -p $NAME/src/
 cp -r src/*.py $NAME/src/
 
 cp -r var $NAME/
+cp .buildid $NAME/
+cp .buildid.rpmmacro $NAME/
+
 
 mkdir -p build/distributions/
 zip -r "build/distributions/$NAME".zip $NAME
