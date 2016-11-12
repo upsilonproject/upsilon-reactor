@@ -2,7 +2,7 @@
 
 Name:		upsilon-reactor
 Version:	%{version_formatted_short}
-Release:	%{version_formatted_short_}.%{timestamp}.%{?dist}
+Release:	%{version_formatted_short}.%{timestamp}.%{?dist}
 Summary:	Upsilon Reactor
 BuildArch: noarch
 
