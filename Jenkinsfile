@@ -20,7 +20,8 @@ def buildRpm(dist) {
                                                                                    
     sh 'mkdir -p SPECS SOURCES'                                                    
     sh "cp build/distributions/*.zip SOURCES/upsilon-reactor.zip"                      
-                                                                                   
+    
+	sh 'unzip -l SOURCES/upsilon-reactor.zip'                                                                               
     sh 'unzip -jo SOURCES/upsilon-reactor.zip "upsilon-reactor-*/var/pkg/upsilon-reactor.spec" "upsilon-reactor-*/.buildid.rpmmacro" -d SPECS/'
     sh "find ${env.WORKSPACE}"                                                     
                                                                                    
