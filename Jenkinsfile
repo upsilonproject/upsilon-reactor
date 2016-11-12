@@ -38,6 +38,7 @@ node {
 		sh "./make.sh" 
 																					   
 		stash includes:"build/distributions/*.zip", name: "binaries"                   
+		archive 'build/distributions/*.zip'
 	}
 }                                                                                  
                                                                                    

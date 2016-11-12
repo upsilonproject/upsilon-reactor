@@ -3,7 +3,8 @@
 Name:		upsilon-reactor
 Version:	%{version_formatted_short}
 Release:	%{version_formatted_short_}.%{timestamp}.%{?dist}
-Summary:	Upsilon Reactor.
+Summary:	Upsilon Reactor
+BuildArch: noarch
 
 Group:		Applications/System
 License:	GPLv2
