@@ -3,3 +3,5 @@
 **/*.swo
 pkg
 .buildid
+buildid*
+.buildid

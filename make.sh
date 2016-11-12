@@ -1,6 +1,8 @@
 #!/bin/bash
 
 buildid -n
+buildid -qf rpmmacro -W .buildid.rpmmacro
+
 NAME="upsilon-reactor-`buildid -k tag`"
 
 mkdir $NAME
