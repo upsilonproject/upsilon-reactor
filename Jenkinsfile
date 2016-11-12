@@ -30,32 +30,32 @@ def buildRpm(dist) {
 }                                                                                  
                                                                                    
 node {                                                                             
-    stage "Prep"                                                                   
-                                                                                   
-    deleteDir()                                                                    
-    checkout scm                                                                   
-                                                                                   
-    stage "Compile"                                                                
-    sh "make.sh" 
-                                                                                   
-    stash includes:"build/distributions/*.zip", name: "binaries"                   
+    stage ("Compile") {
+		deleteDir()                                                                    
+		checkout scm                                                                   
+																					   
+		sh "make.sh" 
+																					   
+		stash includes:"build/distributions/*.zip", name: "binaries"                   
+	}
 }                                                                                  
                                                                                    
 node {                                                                             
-    stage "Smoke"                                                                  
-    echo "Smokin' :)"                                                              
+    stage ("Smoke") {
+	    echo "Smokin' :)"                                                              
+	}
 }                                                                                  
                                                                                    
-stage "Package"                                                                    
-                                                                                   
-node {                                                                             
-    buildRpm("el7")                                                                
-}                                                                                  
-                                                                                   
-node {                                                                             
-    buildRpm("el6")                                                                
-}                                                                                  
-                                                                                   
-node {                                                                             
-    buildRpm("fc24")                                 
-} 
+stage ("Package") {
+	node {                                                                             
+		buildRpm("el7")                                                                
+	}                                                                                  
+																					   
+	node {                                                                             
+		buildRpm("el6")                                                                
+	}                                                                                  
+																					   
+	node {                                                                             
+		buildRpm("fc24")                                 
+	} 
+}
