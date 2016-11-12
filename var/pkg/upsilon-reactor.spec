@@ -28,5 +28,9 @@ Requires:	upsilon-pycommon
 mkdir -p %{buildroot}/usr/share/upsilon-reactor/
 cp src/* %{buildroot}/usr/share/upsilon-reactor/
 
+mkdir -p %{buildroot}/usr/lib/systemd/system
+cp var/upsilon-reactor.service %{buildroot}/var/lib/systemd/system/
+
 %files
 /usr/share/upsilon-reactor
+/usr/lib/systemd/system/upsilon-reactor.service
