@@ -5,3 +5,5 @@ pkg
 .buildid
 buildid*
 .buildid
+build
+buildid.rpmmacro
