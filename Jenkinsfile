@@ -34,7 +34,7 @@ node {
 		deleteDir()                                                                    
 		checkout scm                                                                   
 																					   
-		sh "make.sh" 
+		sh "./make.sh" 
 																					   
 		stash includes:"build/distributions/*.zip", name: "binaries"                   
 	}
