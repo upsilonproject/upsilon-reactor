@@ -21,6 +21,9 @@ configParser.set("amqp", "host", "localhost")
 configParser.set("amqp", "exchange", "ex_upsilon")
 configParser.set("amqp", "queue", "")
 
+if (os.path.isfile('/etc/upsilon-reactor/reactor.cfg')):
+        configParser.readfp(open('/etc/upsilon-reactor/reactor.cfg'))
+
 if (os.path.isfile("defaults.cfg")):
 	configParser.readfp(open('defaults.cfg'))
 
@@ -43,6 +46,8 @@ class RuntimeConfig:
 		self.amqpHost = configParser.get('amqp', 'host')
 		self.amqpExchange = configParser.get('amqp', 'exchange');
 		self.amqpQueue = configParser.get('amqp', 'queue');
+
+                print configParser.sections()
 
 	def applyArguments(self, args):
 		if args.amqpHost != None:
