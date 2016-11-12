@@ -17,7 +17,7 @@ Requires:	upsilon-pycommon
 
 
 %prep
-%setup -q -n upsilon-ractor-%{tag}
+%setup -q -n upsilon-reactor-%{tag}
 
 
 %build
