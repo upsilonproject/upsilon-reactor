@@ -10,6 +10,8 @@ mkdir $NAME
 mkdir -p $NAME/src/
 cp -r src/*.py $NAME/src/
 
+cp -r var $NAME/
+
 mkdir -p build/distributions/
 zip -r "build/distributions/$NAME".zip $NAME
 
