@@ -14,6 +14,7 @@ mysqlConnection = sql.newSqlConnection(config.dbUser, config.dbPass)
 messageHandler.setMySqlConnection(mysqlConnection)
 
 amqpConnection = amqp.Connection(config.amqpHost, config.amqpQueue, config.amqpExchange);
+amqpConnection.setPingReply("reactor", "devel", "db, amqp, reactor");
 messageHandler.setAmqpConnection(amqpConnection)
 
 logger.log("upsilon-node-alerter")
