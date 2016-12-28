@@ -31,6 +31,10 @@ cp src/* %{buildroot}/usr/share/upsilon-reactor/
 mkdir -p %{buildroot}/usr/lib/systemd/system
 cp var/upsilon-reactor.service %{buildroot}/usr/lib/systemd/system/
 
+mkdir -p %{buildroot}/etc/upsilon-reactor/
+cp var/etc/reactor.cfg %{buildroot}/etc/upsilon-reactor/reactor.cfg
+
 %files
 /usr/share/upsilon-reactor
 /usr/lib/systemd/system/upsilon-reactor.service
+/etc/upsilon-reactor/reactor.cfg
