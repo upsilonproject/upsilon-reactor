@@ -16,7 +16,7 @@ mysqlConnection = sql.newSqlConnection(config.dbUser, config.dbPass)
 messageHandler.setMySqlConnection(mysqlConnection)
 
 amqpConnection = amqp.Connection(config.amqpHost, config.amqpQueue, config.amqpExchange);
-amqpConnection.setPingReply("reactor", "devel", "db, amqp, reactor");
+amqpConnection.setPingReply("upsilon-reactor", "devel", "db, amqp, reactor");
 amqpConnection.startHeartbeater();
 
 messageHandler.setAmqpConnection(amqpConnection)
