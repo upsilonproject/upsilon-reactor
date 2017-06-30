@@ -9,10 +9,10 @@ properties(
     ]                                                                              
 )                                                                                  
 
-def prepareEnv(stashName) {
+def prepareEnv() {
     deleteDir()                                                                    
                                                                                    
-    unstash stashName
+    unstash 'binaries'
                                                                                    
     env.WORKSPACE = pwd()                                                          
                                                                                    
@@ -20,7 +20,8 @@ def prepareEnv(stashName) {
 }
 
 def buildDockerContainer() {
-	prepareEnv('el7');
+	prepareEnv();
+	unstash 'el7'
 	
 	sh 'mv RPMS/noarch/*.rpm RPMS/noarch/upsilon-reactor.rpm'
 
@@ -37,7 +38,7 @@ def buildDockerContainer() {
 }
                                                                                    
 def buildRpm(dist) {                                                               
-	prepareEnv('binaries')
+	prepareEnv()
 	                                                                                   
     sh 'mkdir -p SPECS SOURCES'                                                    
     sh "cp build/distributions/*.zip SOURCES/upsilon-reactor.zip"                      
