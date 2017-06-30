@@ -15,6 +15,8 @@ messageHandler.setMySqlConnection(mysqlConnection)
 
 amqpConnection = amqp.Connection(config.amqpHost, config.amqpQueue, config.amqpExchange);
 amqpConnection.setPingReply("reactor", "devel", "db, amqp, reactor");
+amqpConnection.startHeartbeater()
+
 messageHandler.setAmqpConnection(amqpConnection)
 
 logger.log("upsilon-node-alerter")
@@ -23,3 +25,4 @@ try:
     messageHandler.start();
 except KeyboardInterrupt:
     messageHandler.amqp.close()
+    heartbeater.stop()

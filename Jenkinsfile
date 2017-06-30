@@ -8,16 +8,37 @@ properties(
         ]                                                                          
     ]                                                                              
 )                                                                                  
-                                                                                   
-def buildRpm(dist) {                                                               
+
+def prepareEnv(stashName) {
     deleteDir()                                                                    
                                                                                    
-    unstash 'binaries'                                                             
+    unstash stashName
                                                                                    
     env.WORKSPACE = pwd()                                                          
                                                                                    
     sh "find ${env.WORKSPACE}"                                                     
+}
+
+def buildDockerContainer() {
+	prepareEnv('el7');
+	
+	sh 'mv RPMS/noarch/*.rpm RPMS/noarch/upsilon-reactor.rpm'
+
+    sh 'unzip -jo SOURCES/upsilon-reactor.zip "upsilon-reactor-*/var/pkg/Dockerfile" "upsilon-reactor-*/.buildid" -d . '
+
+    tag = sh script: 'buildid -pk tag', returnStdout: true
+
+    println "tag: ${tag}"
+
+    sh "docker build -t 'upsilonproject/reactor:${tag}' ."
+    sh "docker save upsilonproject/reactor:${tag} > upsilon-reactor-docker-${tag}.tgz"
+
+	archive 'upsilon-reactor-docker-${tag}.tgz'
+}
                                                                                    
+def buildRpm(dist) {                                                               
+	prepareEnv('binaries')
+	                                                                                   
     sh 'mkdir -p SPECS SOURCES'                                                    
     sh "cp build/distributions/*.zip SOURCES/upsilon-reactor.zip"                      
     
@@ -27,7 +48,8 @@ def buildRpm(dist) {
                                                                                    
     sh "rpmbuild -ba SPECS/upsilon-reactor.spec --define '_topdir ${env.WORKSPACE}' --define 'dist ${dist}'"
                                                                                    
-    archive 'RPMS/noarch/*.rpm'                                                    
+    archive 'RPMS/noarch/*.rpm'
+	stash includes: "RPMS/noarch/*.rpm", name: dist
 }                                                                                  
                                                                                    
 node {                                                                             
@@ -60,4 +82,8 @@ stage ("Package") {
 	node {                                                                             
 		buildRpm("fc24")                                 
 	} 
+
+	node {
+		buildDockerContainer()
+	}
 }

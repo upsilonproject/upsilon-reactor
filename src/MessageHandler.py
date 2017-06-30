@@ -17,6 +17,6 @@ class MessageHandler():
                 self.amqp.startConsuming()
 
 	def onHeartbeat(self, channel, method, properties, body):
-                print "Heartbeat"
+                print "onHeartbeat"
 
 		channel.basic_ack(delivery_tag = method.delivery_tag, multiple = False)
