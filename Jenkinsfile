@@ -37,7 +37,7 @@ def buildDockerContainer() {
     sh "docker build -t 'upsilonproject/reactor:${tag}' ."
     sh "docker save upsilonproject/reactor:${tag} > upsilon-reactor-docker-${tag}.tgz"
 
-	archive 'upsilon-reactor-docker-${tag}.tgz'
+	archive "upsilon-reactor-docker-${tag}.tgz"
 }
                                                                                    
 def buildRpm(dist) {                                                               
