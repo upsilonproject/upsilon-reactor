@@ -25,7 +25,7 @@ def buildDockerContainer() {
 	
 	sh 'mv RPMS/noarch/*.rpm RPMS/noarch/upsilon-reactor.rpm'
 
-    sh 'unzip -jo SOURCES/upsilon-reactor.zip "upsilon-reactor-*/var/pkg/Dockerfile" "upsilon-reactor-*/.buildid" -d . '
+    sh 'unzip -jo SOURCES/upsilon-reactor*.zip "upsilon-reactor-*/var/pkg/Dockerfile" "upsilon-reactor-*/.buildid" -d . '
 
     tag = sh script: 'buildid -pk tag', returnStdout: true
 
@@ -41,10 +41,10 @@ def buildRpm(dist) {
 	prepareEnv()
 	                                                                                   
     sh 'mkdir -p SPECS SOURCES'                                                    
-    sh "cp build/distributions/*.zip SOURCES/upsilon-reactor.zip"                      
+    sh "cp build/distributions/*.zip SOURCES/upsilon-reactor*.zip"                      
     
-	sh 'unzip -l SOURCES/upsilon-reactor.zip'                                                                               
-    sh 'unzip -jo SOURCES/upsilon-reactor.zip "upsilon-reactor-*/var/pkg/upsilon-reactor.spec" "upsilon-reactor-*/.buildid.rpmmacro" -d SPECS/'
+	sh 'unzip -l SOURCES/upsilon-reactor*.zip'                                                                               
+    sh 'unzip -jo SOURCES/upsilon-reactor*.zip "upsilon-reactor-*/var/pkg/upsilon-reactor.spec" "upsilon-reactor-*/.buildid.rpmmacro" -d SPECS/'
     sh "find ${env.WORKSPACE}"                                                     
                                                                                    
     sh "rpmbuild -ba SPECS/upsilon-reactor.spec --define '_topdir ${env.WORKSPACE}' --define 'dist ${dist}'"
