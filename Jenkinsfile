@@ -1,12 +1,11 @@
 #!groovy                                                                           
                                                                                    
 properties(                                                                        
-    [                                                                              
-        [                                                                          
-			buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '10', daysToKeepStr: '', numToKeepStr: '10')), 
-            $class: 'CopyArtifactPermissionProperty', projectNames: '*'            
-        ]                                                                          
-    ]                                                                              
+	[                                                                          
+		buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '10', daysToKeepStr: '', numToKeepStr: '10')), 
+        [$class: 'CopyArtifactPermissionProperty', projectNames: '*'],             
+        pipelineTriggers([[$class: 'PeriodicFolderTrigger', interval: '1d']])   
+	]                                                                          
 )                                                                                  
 
 def prepareEnv() {
