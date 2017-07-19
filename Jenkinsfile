@@ -3,7 +3,7 @@
 properties(                                                                        
     [                                                                              
         [                                                                          
-            $class: 'jenkins.model.BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10', artifactNumToKeepStr: '10'],
+			buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '10', daysToKeepStr: '', numToKeepStr: '10')), 
             $class: 'CopyArtifactPermissionProperty', projectNames: '*'            
         ]                                                                          
     ]                                                                              
