@@ -13,26 +13,28 @@ config = RuntimeConfig()
 
 messageHandler = MessageHandler()
 
-try: 
-  while True:
-    mysqlConnection = sql.newSqlConnection(config.dbUser, config.dbPass)
-    messageHandler.setMySqlConnection(mysqlConnection)
+while True:
+  try: 
+      mysqlConnection = sql.newSqlConnection(config.dbUser, config.dbPass)
+      messageHandler.setMySqlConnection(mysqlConnection)
 
-    amqpConnection = amqp.Connection(config.amqpHost, config.amqpQueue, config.amqpExchange);
-    amqpConnection.setPingReply("upsilon-reactor", "development", "db, amqp, reactor");
-    amqpConnection.startHeartbeater();
+      amqpConnection = amqp.Connection(config.amqpHost, config.amqpQueue, config.amqpExchange);
+      amqpConnection.setPingReply("upsilon-reactor", "development", "db, amqp, reactor");
+      amqpConnection.startHeartbeater();
 
-    messageHandler.setAmqpConnection(amqpConnection)
+      messageHandler.setAmqpConnection(amqpConnection)
 
-    try:
-        messageHandler.start();
-    except KeyboardInterrupt as e:
-        heartbeater.stop()
-        print e
+      try:
+          messageHandler.start();
+      except KeyboardInterrupt as e:
+          heartbeater.stop()
+          print e
 
+    print "conn retry"
+  except Exception as e:
+    print "reactor exception", e
+
+  print "sleeping for 20 seconds"
   sleep(20)
-  print "conn retry"
-except:
-  print "reactor exception"
 
 print "reactor stopped"
