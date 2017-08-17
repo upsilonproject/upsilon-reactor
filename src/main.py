@@ -2,7 +2,7 @@
 
 import os, sys
 
-from upsilon import logger, amqp, sql
+from upsilon import logger, amqp
 from config import RuntimeConfig
 from MessageHandler import MessageHandler
 from time import sleep
@@ -15,9 +15,6 @@ messageHandler = MessageHandler()
 
 try: 
   while True:
-    mysqlConnection = sql.newSqlConnection(config.dbUser, config.dbPass)
-    messageHandler.setMySqlConnection(mysqlConnection)
-
     amqpConnection = amqp.Connection(config.amqpHost, config.amqpQueue, config.amqpExchange);
     amqpConnection.setPingReply("upsilon-reactor", "development", "db, amqp, reactor");
     amqpConnection.startHeartbeater();
