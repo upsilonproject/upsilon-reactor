@@ -19,8 +19,8 @@ class MessageHandler():
     def onHeartbeat(self, channel, method, properties, body):
         print "Heartbeat"
 
-        channel.basic_ack(delivery_tag = method.delivery_tag, multiple = False)
+        #channel.basic_ack(delivery_tag = method.delivery_tag, multiple = False)
 
     def onMessage(self, channel, method, properties, body):
         print "msg"
-        channel.basic_ack(delivery_tag = method.delivery_tag, multiple = False)
+        #channel.basic_ack(delivery_tag = method.delivery_tag, multiple = False)

@@ -13,8 +13,8 @@ config = RuntimeConfig()
 
 messageHandler = MessageHandler()
 
-try: 
-  while True:
+while True:
+  try: 
     amqpConnection = amqp.Connection(config.amqpHost, config.amqpQueue, config.amqpExchange);
     amqpConnection.setPingReply("upsilon-reactor", "development", "db, amqp, reactor");
     amqpConnection.startHeartbeater();
@@ -27,9 +27,11 @@ try:
         heartbeater.stop()
         print e
 
+    print "conn loop finished"
+  except Exception as e:
+    print "reactor exception", e
+
+  print "sleeping for 20 seconds"
   sleep(20)
-  print "conn retry"
-except:
-  print "reactor exception"
 
 print "reactor stopped"
