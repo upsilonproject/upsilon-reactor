@@ -2,59 +2,36 @@
 
 import os, sys
 
-from upsilon.logger import *
-from upsilon.sql import newSqlConnection
-from upsilon.amqp import newAmqpConnection
+from upsilon import logger, amqp
 from config import RuntimeConfig
+from MessageHandler import MessageHandler
+from time import sleep
+
+logger.log("upsilon-reactor")
 
 config = RuntimeConfig()
 
-class MessageHandler():
-	amqp = None
-	mysql = None
-
-	def setMySqlConnection(self, mysqlConnection):
-		self.mysql = mysqlConnection
-	
-	def setAmqpConnection(self, amqpConnection, amqpExchange, channel, amqpQueue):
-		self.amqp = amqpConnection
-		self.amqpExchange = amqpExchange
-		channel.basic_consume(self.onMessage, queue = amqpQueue)
-		channel.start_consuming()
-
-		amqpConnection.ioloop.start();
-
-	def onMessage(self, channel, method, properties, body):
-		if "upsilon-msg-type" in properties.headers:
-			if properties.headers["upsilon-msg-type"] == "REQ_NODE_SUMMARY":
-				self.onMessagePing(channel)
-		else:
-			print "Got message", properties.headers
-
-		channel.basic_ack(delivery_tag = method.delivery_tag, multiple = False)
-
-	def onMessagePing(self, channel):
-		headers = dict();
-		headers["upsilon-msg-type"] = "RES_NODE_SUMMARY"
-		headers["node-identifier"] = "alerter"
-		headers["node-version"] = "alerter"
-		headers["node-type"] = "alerter"
-
-		import pika
-		props = pika.BasicProperties(headers = headers);
-		pingBody = "<blat>"
-
-		channel.basic_publish(exchange = self.amqpExchange, routing_key = "upsilon.res", body = pingBody, properties = props)
-		log("replied to ping")
-
 messageHandler = MessageHandler()
 
-mysqlConnection = newSqlConnection(config.dbUser, config.dbPass)
-messageHandler.setMySqlConnection(mysqlConnection)
+while True:
+  try: 
+    amqpConnection = amqp.Connection(config.amqpHost, config.amqpQueue, config.amqpExchange);
+    amqpConnection.setPingReply("upsilon-reactor", "development", "db, amqp, reactor");
+    amqpConnection.startHeartbeater();
 
-amqpConnection, amqpChannel = newAmqpConnection(config.amqpHost, config.amqpExchange, config.amqpQueue);
-messageHandler.setAmqpConnection(amqpConnection, config.amqpExchange, amqpChannel, config.amqpQueue)
+    messageHandler.setAmqpConnection(amqpConnection)
 
-log("upsilon-node-alerter")
+    try:
+        messageHandler.start();
+    except KeyboardInterrupt as e:
+        heartbeater.stop()
+        print e
 
+    print "conn loop finished"
+  except Exception as e:
+    print "reactor exception", e
 
+  print "sleeping for 20 seconds"
+  sleep(20)
+
+print "reactor stopped"

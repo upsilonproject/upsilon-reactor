@@ -1,3 +1,8 @@
 **/*.pyc
 **/*.swp
 **/*.swo
+.buildid
+buildid*
+.buildid
+build
+.buildid.rpmmacro

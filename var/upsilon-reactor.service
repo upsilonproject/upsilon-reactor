@@ -1,0 +1,13 @@
+[Unit]
+Description=upsilon-reactor
+After=syslog.target network.target
+
+[Service]
+User=upsilon
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=upsilon-reactor
+ExecStart=/usr/share/upsilon-reactor/main.py
+
+[Install]
+WantedBy=multi-user.target
